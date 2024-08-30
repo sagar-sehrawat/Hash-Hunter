@@ -4,9 +4,8 @@ import hashlib
 import argparse
 import sys
 import threading
-import time 
+import time
 from colorama import Fore, Style, init
-
 
 init()
 
@@ -30,17 +29,17 @@ def hash_identifier(length):
         return hashlib.sha384
     elif length == 128:
         return hashlib.sha512
-    elif length == 64:  
+    elif length == 64:
         return hashlib.blake2s
-    elif length == 128:  
+    elif length == 128:
         return hashlib.blake2b
-    elif length == 56:  
+    elif length == 56:
         return hashlib.sha3_224
-    elif length == 64:  
+    elif length == 64:
         return hashlib.sha3_256
-    elif length == 96:  
+    elif length == 96:
         return hashlib.sha3_384
-    elif length == 128:  
+    elif length == 128:
         return hashlib.sha3_512
     else:
         return None
@@ -57,7 +56,7 @@ def file_passwords(hash_file, wordlist_file, verbose):
     with open(hash_file, 'r') as file:
         hashes = [line.strip() for line in file]
 
-    with open(wordlist_file, 'r') as pas:
+    with open(wordlist_file, 'r', errors='ignore') as pas:
         passwords = [line.strip() for line in pas]
 
     for idx, target_hash in enumerate(hashes):
@@ -102,7 +101,7 @@ def file_passwords(hash_file, wordlist_file, verbose):
             sys.stdout.write('\n')  
 
 def main():
-    parser = argparse.ArgumentParser(description='Crack hashed Using a passwords wordlist.')
+    parser = argparse.ArgumentParser(description='Crack hashed passwords using a wordlist.')
     parser.add_argument('-w', '--wordlist', required=True, help='Path to the wordlist file.')
     parser.add_argument('-f', '--hashfile', required=True, help='Path to the file containing the target hashes.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output.')
